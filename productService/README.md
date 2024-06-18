@@ -1,9 +1,13 @@
-# Welcome to your CDK JavaScript project
+# Task 3.1
+- [x] Product Service contains configuration for 2 lambda functions. API is working
+  * [Products list](https://m1xge546pb.execute-api.us-east-1.amazonaws.com/prod/products)
+  * [Get product by id](https://m1xge546pb.execute-api.us-east-1.amazonaws.com/prod/products/1)
+- [x] Both lambda functions getProductsById AND getProductsList return a correct response code
+- [ ] Frontend application is integrated with Product Service (/products API)
 
-This is a blank project for CDK development with JavaScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app. The build step is not required when using JavaScript.
-
+# Additional (optional) task
+- [x] ***+7.5*** - Swagger documentation is created. File openapi.yaml in productService folder
+- [x] ***+7.5*** - Main error scenarios are handled by API ("Product not found" error)    
 ## Useful commands
 
 * `npm run test`         perform the jest unit tests
