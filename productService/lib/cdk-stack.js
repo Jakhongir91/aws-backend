@@ -1,6 +1,7 @@
 const { Stack, Duration } = require('aws-cdk-lib');
 const lambda = require('aws-cdk-lib/aws-lambda');
 const apiGateway = require('aws-cdk-lib/aws-apigateway');
+const {LambdaIntegration} = require("aws-cdk-lib/aws-apigateway");
 
 class CdkStack extends Stack {
   /**
@@ -12,10 +13,16 @@ class CdkStack extends Stack {
   constructor(scope, id, props) {
     super(scope, id, props);
 
-    const productListFunction = new lambda.Function(this, 'ProductListLambda', {
+    const productListFunction = new lambda.Function(this, 'getProductsList', {
       runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
       code: lambda.Code.fromAsset('lambda'), // Points to the lambda directory
-      handler: 'productList.handler', // Points to the 'hello' file in the lambda directory
+      handler: 'getProductsList.handler', // Points to the 'hello' file in the lambda directory
+    });
+
+    const productByIdFunction = new lambda.Function(this, 'getProductsById', {
+      runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
+      code: lambda.Code.fromAsset('lambda'), // Points to the lambda directory
+      handler: 'getProductsById.handler',
     });
 
     const api = new apiGateway.LambdaRestApi(this, 'ProductListApi', {
@@ -24,8 +31,11 @@ class CdkStack extends Stack {
     });
 
     // Define the '/products' resource with a GET method
-    const helloResource = api.root.addResource('products');
-    helloResource.addMethod('GET');
+    const productsResource = api.root.addResource('products');
+    productsResource.addMethod('GET');
+
+    const productResource = productsResource.addResource('{product_id}');
+    productResource.addMethod('GET', new LambdaIntegration(productByIdFunction));
   }
 }
 
