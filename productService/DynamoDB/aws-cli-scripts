@@ -1,0 +1,82 @@
+######## Create tables BEGIN #####################
+
+aws dynamodb create-table \
+    --table-name products \
+    --attribute-definitions \
+        AttributeName=id,AttributeType=S \
+    --key-schema \
+        AttributeName=id,KeyType=HASH \
+    --provisioned-throughput \
+        ReadCapacityUnits=5,WriteCapacityUnits=5 \
+    --table-class STANDARD
+
+aws dynamodb create-table \
+    --table-name stocks \
+    --attribute-definitions \
+        AttributeName=product_id,AttributeType=S \
+    --key-schema \
+        AttributeName=product_id,KeyType=HASH \
+    --provisioned-throughput \
+        ReadCapacityUnits=5,WriteCapacityUnits=5 \
+    --table-class STANDARD
+
+######## Create tables END #####################
+
+
+
+#################### Fill table `products` with example data BEGIN #####################
+    aws dynamodb put-item \
+        --table-name products  \
+        --item \
+            '{"id": {"S": "unique-id-1"}, "title": {"S": "IPhone 14"}, "description": {"S": "Very expensive device"}, "price": {"N": "100"}}'
+
+    aws dynamodb put-item \
+        --table-name products  \
+        --item \
+            '{"id": {"S": "unique-id-2"}, "title": {"S": "Apple watches"}, "description": {"S": "Very stylish device"}, "price": {"N": "50"}}'
+
+    aws dynamodb put-item \
+        --table-name products  \
+        --item \
+            '{"id": {"S": "unique-id-3"}, "title": {"S": "Apple pods"}, "description": {"S": "Quality sound"}, "price": {"N": "100"}}'
+
+    aws dynamodb put-item \
+        --table-name products  \
+        --item \
+            '{"id": {"S": "unique-id-4"}, "title": {"S": "IMac"}, "description": {"S": "For work"}, "price": {"N": "150"}}'
+
+    aws dynamodb put-item \
+        --table-name products  \
+        --item \
+            '{"id": {"S": "unique-id-5"}, "title": {"S": "MacBook Pro"}, "description": {"S": "May be problem with Docker"}, "price": {"N": "200"}}'
+
+####################  Fill table `products` with example data END #####################
+
+
+#################### Fill table `stocks` with example data BEGIN #####################
+    aws dynamodb put-item \
+        --table-name stocks  \
+        --item \
+            '{"product_id": {"S": "unique-id-5"}, "title": {"S": "MacBook Pro"}, "description": {"S": "May be problem with Docker"}, "price": {"N": "200"}}'
+
+    aws dynamodb put-item \
+        --table-name stocks  \
+        --item \
+            '{"product_id": {"S": "unique-id-2"}, "count": {"N": 10}'
+
+    aws dynamodb put-item \
+        --table-name stocks  \
+        --item \
+            '{"product_id": {"S": "unique-id-3"}, "count": {"N": 10}'
+
+    aws dynamodb put-item \
+        --table-name stocks  \
+        --item \
+            '{"product_id": {"S": "unique-id-4"}, "count": {"N": 10}'
+
+    aws dynamodb put-item \
+        --table-name stocks  \
+        --item \
+            '{"product_id": {"S": "unique-id-5"}, "count": {"N": 10}'
+
+####################  Fill table `stocks` with example data END #####################
