@@ -21,7 +21,7 @@ paths:
                   type: integer
                   description: "ID of product"
                   example: 1
-                name:
+                title:
                   type: string
                   description: "Product name"
                   "example": "Iphone 14"
@@ -48,7 +48,7 @@ paths:
                 type: integer
                 description: "ID of product"
                 example: 1
-              name:
+              title:
                 type: string
                 description: "Product name"
                 "example": "Iphone 14"
