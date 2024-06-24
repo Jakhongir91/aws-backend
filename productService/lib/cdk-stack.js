@@ -7,6 +7,7 @@ const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { PutCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
 const {RemovalPolicy} = require("@aws-cdk/core");
 const {data} = require("aws-cdk/lib/logging");
+const {iam} = require("@aws-cdk/aws-iam");
 
 class CdkStack extends Stack {
   /**
@@ -66,6 +67,16 @@ class CdkStack extends Stack {
         // COGNITO_PUBLIC_KEY: // not relevant
       }
     });
+    console.log("IAM");
+    console.log(iam);
+    // return;
+    const accessPolicy = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        "dynamodb:*"                            ]
+    });
+    accessPolicy.addAllResources();
+    productListFunction.addToRolePolicy(accessPolicy)
 
     const productByIdFunction = new lambda.Function(this, 'getProductsById', {
       runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
