@@ -80,3 +80,11 @@ aws dynamodb create-table \
             '{"product_id": {"S": "unique-id-5"}, "count": {"N": 10}'
 
 ####################  Fill table `stocks` with example data END #####################
+
+
+####################  Scan table BEGIN #####################
+aws dynamodb scan \
+    --table-name products \
+    --page-size 100  \
+    --debug
+####################  Scan table END #####################
