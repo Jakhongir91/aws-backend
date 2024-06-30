@@ -1,13 +1,16 @@
-module.exports.handler = async (event) => {
-    let products = require("./mock/products.js");
+const { DynamoDBClient } = require( "@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, ScanCommand } = require("@aws-sdk/lib-dynamodb");
 
-    return {
-        statusCode: 200,
-        headers: {
-            "Access-Control-Allow-Headers" : "Content-Type",
-            "Access-Control-Allow-Origin": "*", // Allow from anywhere
-            "Access-Control-Allow-Methods": "GET" // Allow only GET request
-        },
-        body: JSON.stringify(products.products)
-    };
+const client = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(client);
+
+
+exports.handler = async (event, context, callback) => {
+    const command = new ScanCommand({
+        ProjectionExpression: "#Name, Color, AvgLifeSpan",
+        ExpressionAttributeNames: { "#Name": "Name" },
+        TableName: "products",
+    });
+
+    const response = await docClient.send(command);
 };
